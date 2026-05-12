@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle Financeiro</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0f172a" />
+</head>
+
+<body>
+    <header>
+        <h1>Controle Financeiro</h1>
+    </header>
+    <main>
+        <section class="cards">
+            <div class="card">
+                <h2>Saldo Total</h2>
+                <p id="saldoTotal">R$ 0,00</p>
+            </div>
+            <div class="card entrada">
+                <h2>Entradas</h2>
+                <p id="totalEntradas">R$ 0,00</p>
+            </div>
+            <div class="card saida">
+                <h2>Saídas</h2>
+                <p id="totalSaidas">R$ 0,00</p>
+            </div>
+        </section>
+        <section class="formulario">
+            <h2>Novo lançamento</h2>
+            <form id="formLancamento">
+                <input type="text" id="descricao" placeholder="Descrição" required />
+                <input type="number" id="valor" placeholder="Valor" required />
+                <select id="tipo">
+                    <option value="entrada">Entrada</option>
+                    <option value="saida">Saída</option>
+                </select>
+                <select id="categoria">
+                    <option>Alimentação</option>
+                    <option>Transporte</option>
+                    <option>Lazer</option>
+                    <option>Contas</option>
+                    <option>Investimento</option>
+                    <option>Cartão</option>
+                </select>
+                <button type="submit">Salvar</button>
+            </form>
+        </section>
+        <section class="lista">
+            <h2>Lançamentos</h2>
+            <ul id="listaLancamentos"></ul>
+        </section>
+        <section class="backup">
+            <button id="exportar">Exportar Backup</button>
+            <input type="file" id="importarArquivo" />
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+
+</html>
