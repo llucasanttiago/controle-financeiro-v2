@@ -2,63 +2,279 @@
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Controle Financeiro</title>
+
     <link rel="stylesheet" href="style.css" />
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0f172a" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
-    <header>
-        <h1>Controle Financeiro</h1>
-    </header>
-    <main>
-        <section class="cards">
-            <div class="card">
-                <h2>Saldo Total</h2>
-                <p id="saldoTotal">R$ 0,00</p>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>Finanças</h2>
             </div>
-            <div class="card entrada">
-                <h2>Entradas</h2>
-                <p id="totalEntradas">R$ 0,00</p>
-            </div>
-            <div class="card saida">
-                <h2>Saídas</h2>
-                <p id="totalSaidas">R$ 0,00</p>
-            </div>
-        </section>
-        <section class="formulario">
-            <h2>Novo lançamento</h2>
-            <form id="formLancamento">
-                <input type="text" id="descricao" placeholder="Descrição" required />
-                <input type="number" id="valor" placeholder="Valor" required />
-                <select id="tipo">
-                    <option value="entrada">Entrada</option>
-                    <option value="saida">Saída</option>
-                </select>
-                <select id="categoria">
-                    <option>Alimentação</option>
-                    <option>Transporte</option>
-                    <option>Lazer</option>
-                    <option>Contas</option>
-                    <option>Investimento</option>
-                    <option>Cartão</option>
-                </select>
-                <button type="submit">Salvar</button>
-            </form>
-        </section>
-        <section class="lista">
-            <h2>Lançamentos</h2>
-            <ul id="listaLancamentos"></ul>
-        </section>
-        <section class="backup">
-            <button id="exportar">Exportar Backup</button>
-            <input type="file" id="importarArquivo" />
-        </section>
-    </main>
+
+            <nav class="menu-lateral">
+
+                <button class="menu-item ativo">
+                    Dashboard
+                </button>
+
+                <button class="menu-item">
+                    Lançamentos
+                </button>
+
+                <button class="menu-item">
+                    Metas
+                </button>
+
+                <button class="menu-item">
+                    Cartões
+                </button>
+
+                <button class="menu-item">
+                    Configurações
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+
+
+
+        <!-- CONTEÚDO -->
+
+        <main class="conteudo">
+
+            <!-- TOPO -->
+
+            <header class="topo">
+
+                <div>
+                    <h1>Dashboard Financeiro</h1>
+                    <p>Controle total do seu dinheiro</p>
+                </div>
+
+            </header>
+
+
+
+
+
+            <!-- CARDS -->
+
+            <section class="cards">
+
+                <div class="card saldo-card">
+
+                    <span>Saldo Total</span>
+
+                    <h2 id="saldoTotal">
+                        R$ 0,00
+                    </h2>
+
+                </div>
+
+
+
+                <div class="card entrada-card">
+
+                    <span>Entradas</span>
+
+                    <h2 id="totalEntradas">
+                        R$ 0,00
+                    </h2>
+
+                </div>
+
+
+
+                <div class="card saida-card">
+
+                    <span>Saídas</span>
+
+                    <h2 id="totalSaidas">
+                        R$ 0,00
+                    </h2>
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <!-- GRÁFICOS -->
+
+            <section class="graficos">
+
+                <div class="grafico-box">
+
+                    <div class="titulo-box">
+                        <h3>Gastos por categoria</h3>
+                    </div>
+
+                    <canvas id="graficoCategorias"></canvas>
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <!-- PAINEL -->
+
+            <section class="painel">
+
+                <!-- FORM -->
+
+                <div class="formulario-box">
+
+                    <div class="titulo-box">
+                        <h2>Novo lançamento</h2>
+                    </div>
+
+                    <form id="formLancamento">
+
+                        <input type="text" id="descricao" placeholder="Descrição" required />
+
+
+
+                        <input type="number" id="valor" placeholder="Valor" required />
+
+
+
+                        <select id="tipo">
+
+                            <option value="entrada">
+                                Entrada
+                            </option>
+
+                            <option value="saida">
+                                Saída
+                            </option>
+
+                        </select>
+
+
+
+
+
+                        <select id="categoria">
+
+                            <option>
+                                Alimentação
+                            </option>
+
+                            <option>
+                                Transporte
+                            </option>
+
+                            <option>
+                                Lazer
+                            </option>
+
+                            <option>
+                                Contas
+                            </option>
+
+                            <option>
+                                Investimento
+                            </option>
+
+                            <option>
+                                Cartão
+                            </option>
+
+                        </select>
+
+
+
+
+
+                        <button type="submit">
+                            Salvar
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+
+
+
+                <!-- LISTA -->
+
+                <div class="lista-box">
+
+                    <div class="lista-topo">
+
+                        <h2>Lançamentos</h2>
+
+                        <input type="text" id="pesquisa" placeholder="Pesquisar" />
+
+                    </div>
+
+
+
+
+
+                    <ul id="listaLancamentos">
+
+                        <!-- JS -->
+
+                    </ul>
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <!-- BACKUP -->
+
+            <section class="backup-box">
+
+                <button id="exportar">
+                    Exportar Backup
+                </button>
+
+
+
+                <input type="file" id="importarArquivo" />
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+
+
     <script src="app.js"></script>
+
 </body>
 
 </html>
