@@ -1,38 +1,268 @@
-const form = document.getElementById('formLancamento')
+/* =========================
+   INDEXED DB
+========================= */
 
-const lista = document.getElementById('listaLancamentos')
+const DB_NAME = 'controleFinanceiroDB'
+const DB_VERSION = 1
+const STORE_NAME = 'lancamentos'
 
-const saldoTotal = document.getElementById('saldoTotal')
-const totalEntradas = document.getElementById('totalEntradas')
-const totalSaidas = document.getElementById('totalSaidas')
-
-const pesquisa = document.getElementById('pesquisa')
-
-const exportarBtn = document.getElementById('exportar')
-const importarArquivo = document.getElementById('importarArquivo')
+let db
 
 
 
-let lancamentos =
-    JSON.parse(localStorage.getItem('lancamentos')) || []
+/* =========================
+   ABRIR BANCO
+========================= */
+
+function abrirBanco() {
+
+    return new Promise((resolve, reject) => {
+
+        const request =
+            indexedDB.open(DB_NAME, DB_VERSION)
 
 
 
-/* SALVAR */
+        request.onupgradeneeded = (event) => {
 
-function salvarDados() {
+            db = event.target.result
 
-    localStorage.setItem(
-        'lancamentos',
-        JSON.stringify(lancamentos)
-    )
+
+
+            if (
+                !db.objectStoreNames.contains(STORE_NAME)
+            ) {
+
+                const store =
+                    db.createObjectStore(
+                        STORE_NAME,
+                        {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        }
+                    )
+
+
+
+                store.createIndex(
+                    'descricao',
+                    'descricao',
+                    { unique: false }
+                )
+
+                store.createIndex(
+                    'categoria',
+                    'categoria',
+                    { unique: false }
+                )
+
+            }
+
+        }
+
+
+
+        request.onsuccess = (event) => {
+
+            db = event.target.result
+
+            resolve(db)
+
+        }
+
+
+
+        request.onerror = (event) => {
+
+            reject(event.target.error)
+
+        }
+
+    })
+
 }
 
 
 
 
 
-/* FORMATAR */
+/* =========================
+   SALVAR LANÇAMENTO
+========================= */
+
+function salvarLancamento(dados) {
+
+    return new Promise((resolve, reject) => {
+
+        const transaction =
+            db.transaction(
+                [STORE_NAME],
+                'readwrite'
+            )
+
+
+
+        const store =
+            transaction.objectStore(STORE_NAME)
+
+
+
+        const request =
+            store.add(dados)
+
+
+
+        request.onsuccess = () => {
+
+            resolve()
+
+        }
+
+
+
+        request.onerror = () => {
+
+            reject()
+
+        }
+
+    })
+
+}
+
+
+
+
+
+/* =========================
+   BUSCAR TODOS
+========================= */
+
+function buscarLancamentos() {
+
+    return new Promise((resolve, reject) => {
+
+        const transaction =
+            db.transaction(
+                [STORE_NAME],
+                'readonly'
+            )
+
+
+
+        const store =
+            transaction.objectStore(STORE_NAME)
+
+
+
+        const request =
+            store.getAll()
+
+
+
+        request.onsuccess = () => {
+
+            resolve(request.result)
+
+        }
+
+
+
+        request.onerror = () => {
+
+            reject()
+
+        }
+
+    })
+
+}
+
+
+
+
+
+/* =========================
+   REMOVER
+========================= */
+
+function removerLancamentoDB(id) {
+
+    return new Promise((resolve, reject) => {
+
+        const transaction =
+            db.transaction(
+                [STORE_NAME],
+                'readwrite'
+            )
+
+
+
+        const store =
+            transaction.objectStore(STORE_NAME)
+
+
+
+        const request =
+            store.delete(id)
+
+
+
+        request.onsuccess = () => {
+
+            resolve()
+
+        }
+
+
+
+        request.onerror = () => {
+
+            reject()
+
+        }
+
+    })
+
+}
+
+
+
+
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+const form =
+    document.getElementById('formLancamento')
+
+const lista =
+    document.getElementById('listaLancamentos')
+
+const saldoTotal =
+    document.getElementById('saldoTotal')
+
+const totalEntradas =
+    document.getElementById('totalEntradas')
+
+const totalSaidas =
+    document.getElementById('totalSaidas')
+
+const pesquisa =
+    document.getElementById('pesquisa')
+
+
+
+let lancamentos = []
+
+
+
+
+
+/* =========================
+   FORMATAR MOEDA
+========================= */
 
 function formatarMoeda(valor) {
 
@@ -43,13 +273,16 @@ function formatarMoeda(valor) {
             currency: 'BRL'
         }
     )
+
 }
 
 
 
 
 
-/* ATUALIZAR */
+/* =========================
+   ATUALIZAR TELA
+========================= */
 
 function atualizarTela(listaFiltrada = lancamentos) {
 
@@ -58,9 +291,12 @@ function atualizarTela(listaFiltrada = lancamentos) {
     let entradas = 0
     let saidas = 0
 
-    listaFiltrada.forEach((item, index) => {
 
-        const li = document.createElement('li')
+
+    listaFiltrada.forEach((item) => {
+
+        const li =
+            document.createElement('li')
 
 
 
@@ -98,7 +334,9 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
 
 
-        <button onclick="removerLancamento(${index})">
+        <button
+          onclick="remover(${item.id})"
+        >
 
           X
 
@@ -128,12 +366,8 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
 
 
-    const saldo = entradas - saidas
-
-
-
     saldoTotal.textContent =
-        formatarMoeda(saldo)
+        formatarMoeda(entradas - saidas)
 
     totalEntradas.textContent =
         formatarMoeda(entradas)
@@ -143,18 +377,19 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
 
 
-    salvarDados()
-
     atualizarGrafico()
+
 }
 
 
 
 
 
-/* ADICIONAR */
+/* =========================
+   ADICIONAR
+========================= */
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
 
     e.preventDefault()
 
@@ -174,18 +409,18 @@ form.addEventListener('submit', (e) => {
 
 
 
-    lancamentos.push({
+    await salvarLancamento({
 
         descricao,
         valor,
         tipo,
-        categoria
-
+        categoria,
+        criadoEm: new Date()
     })
 
 
 
-    atualizarTela()
+    await carregarLancamentos()
 
     form.reset()
 
@@ -195,11 +430,16 @@ form.addEventListener('submit', (e) => {
 
 
 
-/* REMOVER */
+/* =========================
+   CARREGAR
+========================= */
 
-function removerLancamento(index) {
+async function carregarLancamentos() {
 
-    lancamentos.splice(index, 1)
+    lancamentos =
+        await buscarLancamentos()
+
+
 
     atualizarTela()
 
@@ -209,7 +449,25 @@ function removerLancamento(index) {
 
 
 
-/* PESQUISA */
+/* =========================
+   REMOVER
+========================= */
+
+async function remover(id) {
+
+    await removerLancamentoDB(id)
+
+    await carregarLancamentos()
+
+}
+
+
+
+
+
+/* =========================
+   PESQUISA
+========================= */
 
 pesquisa.addEventListener('input', () => {
 
@@ -222,6 +480,7 @@ pesquisa.addEventListener('input', () => {
         lancamentos.filter((item) => {
 
             return (
+
                 item.descricao
                     .toLowerCase()
                     .includes(texto)
@@ -231,6 +490,7 @@ pesquisa.addEventListener('input', () => {
                 item.categoria
                     .toLowerCase()
                     .includes(texto)
+
             )
 
         })
@@ -245,92 +505,9 @@ pesquisa.addEventListener('input', () => {
 
 
 
-/* BACKUP */
-
-exportarBtn.addEventListener('click', () => {
-
-    const dados =
-        JSON.stringify(lancamentos)
-
-
-
-    const blob = new Blob(
-        [dados],
-        {
-            type: 'application/json'
-        }
-    )
-
-
-
-    const url =
-        URL.createObjectURL(blob)
-
-
-
-    const a =
-        document.createElement('a')
-
-
-
-    a.href = url
-
-    a.download =
-        'backup-financeiro.json'
-
-
-
-    a.click()
-
-})
-
-
-
-
-
-/* IMPORTAR */
-
-importarArquivo.addEventListener(
-    'change',
-    (evento) => {
-
-        const arquivo =
-            evento.target.files[0]
-
-
-
-        if (!arquivo) return
-
-
-
-        const leitor =
-            new FileReader()
-
-
-
-        leitor.onload = function (e) {
-
-            lancamentos =
-                JSON.parse(e.target.result)
-
-
-
-            atualizarTela()
-
-        }
-
-
-
-        leitor.readAsText(arquivo)
-
-    }
-)
-
-
-
-
-
-/* GRÁFICO */
+/* =========================
+   GRÁFICO
+========================= */
 
 let grafico
 
@@ -354,6 +531,7 @@ function atualizarGrafico() {
 
             categorias[item.categoria] +=
                 Number(item.valor)
+
         }
 
     })
@@ -369,7 +547,9 @@ function atualizarGrafico() {
 
 
     const ctx =
-        document.getElementById('graficoCategorias')
+        document.getElementById(
+            'graficoCategorias'
+        )
 
 
 
@@ -431,6 +611,18 @@ function atualizarGrafico() {
 
 
 
-/* INICIAR */
+/* =========================
+   INICIAR
+========================= */
 
-atualizarTela()
+async function iniciar() {
+
+    await abrirBanco()
+
+    await carregarLancamentos()
+
+}
+
+
+
+iniciar()
