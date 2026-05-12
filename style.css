@@ -137,7 +137,7 @@ body {
 
 
 
-/* GRÁFICO */
+/* GRÁFICOS */
 
 .graficos {
     margin-bottom: 30px;
@@ -167,6 +167,74 @@ body {
 
 
 
+/* CARTÕES */
+
+.cartoes-area {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cartao-box,
+.parcelamento-box {
+    background: #0f172a;
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.cartao-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.cartao-info {
+    background: #111827;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.cartao-info span {
+    color: #94a3b8;
+}
+
+.cartao-info h3 {
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+.fatura-box {
+    margin-top: 24px;
+
+    background: linear-gradient(145deg,
+            #2563eb,
+            #1d4ed8);
+
+    border-radius: 24px;
+
+    padding: 30px;
+}
+
+.fatura-box span {
+    opacity: 0.8;
+}
+
+.fatura-box h2 {
+    margin-top: 14px;
+    font-size: 42px;
+}
+
+.fatura-box p {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+
+
+
+
 /* PAINEL */
 
 .painel {
@@ -182,7 +250,9 @@ body {
 
 /* FORM */
 
-.formulario-box {
+.formulario-box,
+.lista-box,
+.backup-box {
     background: #0f172a;
     border-radius: 24px;
     padding: 24px;
@@ -225,12 +295,6 @@ button:hover {
 
 
 /* LISTA */
-
-.lista-box {
-    background: #0f172a;
-    border-radius: 24px;
-    padding: 24px;
-}
 
 .lista-topo {
     display: flex;
@@ -295,10 +359,6 @@ li {
 /* BACKUP */
 
 .backup-box {
-    background: #0f172a;
-    border-radius: 24px;
-    padding: 24px;
-
     display: flex;
     gap: 16px;
     align-items: center;
@@ -317,6 +377,14 @@ li {
     }
 
     .painel {
+        grid-template-columns: 1fr;
+    }
+
+    .cartoes-area {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao-resumo {    
         grid-template-columns: 1fr;
     }
 

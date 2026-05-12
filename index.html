@@ -1,280 +1,145 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+/* ======================================
+CARTÕES
+====================================== */
 
-<head>
+.cartoes-area {
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+display: grid;
+grid-template-columns: 1fr 350px;
+gap: 20px;
 
-    <title>Controle Financeiro</title>
+margin-bottom: 30px;
+}
 
-    <link rel="stylesheet" href="style.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-</head>
 
-<body>
 
-    <div class="app">
+.cartao-box,
+.parcelamento-box {
 
-        <!-- SIDEBAR -->
+background: #0f172a;
 
-        <aside class="sidebar">
+border-radius: 24px;
 
-            <div class="logo">
-                <h2>Finanças</h2>
-            </div>
+padding: 24px;
+}
 
-            <nav class="menu-lateral">
 
-                <button class="menu-item ativo">
-                    Dashboard
-                </button>
 
-                <button class="menu-item">
-                    Lançamentos
-                </button>
 
-                <button class="menu-item">
-                    Metas
-                </button>
 
-                <button class="menu-item">
-                    Cartões
-                </button>
+.cartao-resumo {
 
-                <button class="menu-item">
-                    Configurações
-                </button>
+display: grid;
+grid-template-columns: repeat(3, 1fr);
 
-            </nav>
+gap: 20px;
 
-        </aside>
+margin-top: 20px;
+}
 
 
 
 
 
-        <!-- CONTEÚDO -->
+.cartao-info {
 
-        <main class="conteudo">
+background: #111827;
 
-            <!-- TOPO -->
+border-radius: 18px;
 
-            <header class="topo">
+padding: 20px;
+}
 
-                <div>
-                    <h1>Dashboard Financeiro</h1>
-                    <p>Controle total do seu dinheiro</p>
-                </div>
 
-            </header>
 
 
 
+.cartao-info span {
 
+color: #94a3b8;
+}
 
-            <!-- CARDS -->
 
-            <section class="cards">
 
-                <div class="card saldo-card">
 
-                    <span>Saldo Total</span>
 
-                    <h2 id="saldoTotal">
-                        R$ 0,00
-                    </h2>
+.cartao-info h3 {
 
-                </div>
+margin-top: 10px;
 
+font-size: 28px;
+}
 
 
-                <div class="card entrada-card">
 
-                    <span>Entradas</span>
 
-                    <h2 id="totalEntradas">
-                        R$ 0,00
-                    </h2>
 
-                </div>
+.fatura-box {
 
+margin-top: 24px;
 
+background: linear-gradient(
+145deg,
+#2563eb,
+#1d4ed8
+);
 
-                <div class="card saida-card">
+border-radius: 24px;
 
-                    <span>Saídas</span>
+padding: 30px;
+}
 
-                    <h2 id="totalSaidas">
-                        R$ 0,00
-                    </h2>
 
-                </div>
 
-            </section>
 
 
+.fatura-box span {
 
+opacity: 0.8;
+}
 
 
-            <!-- GRÁFICOS -->
 
-            <section class="graficos">
 
-                <div class="grafico-box">
 
-                    <div class="titulo-box">
-                        <h3>Gastos por categoria</h3>
-                    </div>
+.fatura-box h2 {
 
-                    <canvas id="graficoCategorias"></canvas>
+margin-top: 14px;
 
-                </div>
+font-size: 42px;
+}
 
-            </section>
 
 
 
 
+.fatura-box p {
 
-            <!-- PAINEL -->
+margin-top: 10px;
 
-            <section class="painel">
+opacity: 0.8;
+}
 
-                <!-- FORM -->
 
-                <div class="formulario-box">
 
-                    <div class="titulo-box">
-                        <h2>Novo lançamento</h2>
-                    </div>
 
-                    <form id="formLancamento">
 
-                        <input type="text" id="descricao" placeholder="Descrição" required />
+@media(max-width: 1000px) {
 
+.cartoes-area {
 
+grid-template-columns: 1fr;
 
-                        <input type="number" id="valor" placeholder="Valor" required />
+}
 
 
 
-                        <select id="tipo">
+.cartao-resumo {
 
-                            <option value="entrada">
-                                Entrada
-                            </option>
+grid-template-columns: 1fr;
 
-                            <option value="saida">
-                                Saída
-                            </option>
+}
 
-                        </select>
-
-
-
-
-
-                        <select id="categoria">
-
-                            <option>
-                                Alimentação
-                            </option>
-
-                            <option>
-                                Transporte
-                            </option>
-
-                            <option>
-                                Lazer
-                            </option>
-
-                            <option>
-                                Contas
-                            </option>
-
-                            <option>
-                                Investimento
-                            </option>
-
-                            <option>
-                                Cartão
-                            </option>
-
-                        </select>
-
-
-
-
-
-                        <button type="submit">
-                            Salvar
-                        </button>
-
-                    </form>
-
-                </div>
-
-
-
-
-
-                <!-- LISTA -->
-
-                <div class="lista-box">
-
-                    <div class="lista-topo">
-
-                        <h2>Lançamentos</h2>
-
-                        <input type="text" id="pesquisa" placeholder="Pesquisar" />
-
-                    </div>
-
-
-
-
-
-                    <ul id="listaLancamentos">
-
-                        <!-- JS -->
-
-                    </ul>
-
-                </div>
-
-            </section>
-
-
-
-
-
-            <!-- BACKUP -->
-
-            <section class="backup-box">
-
-                <button id="exportar">
-                    Exportar Backup
-                </button>
-
-
-
-                <input type="file" id="importarArquivo" />
-
-            </section>
-
-        </main>
-
-    </div>
-
-
-
-
-
-    <script src="app.js"></script>
-
-</body>
-
-</html>
+}

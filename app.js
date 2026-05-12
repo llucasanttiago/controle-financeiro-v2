@@ -1,6 +1,6 @@
-/* =========================
+/* ======================================
    INDEXED DB
-========================= */
+====================================== */
 
 const DB_NAME = 'controleFinanceiroDB'
 const DB_VERSION = 1
@@ -10,9 +10,9 @@ let db
 
 
 
-/* =========================
+/* ======================================
    ABRIR BANCO
-========================= */
+====================================== */
 
 function abrirBanco() {
 
@@ -50,6 +50,8 @@ function abrirBanco() {
                     { unique: false }
                 )
 
+
+
                 store.createIndex(
                     'categoria',
                     'categoria',
@@ -86,9 +88,9 @@ function abrirBanco() {
 
 
 
-/* =========================
-   SALVAR LANÇAMENTO
-========================= */
+/* ======================================
+   SALVAR
+====================================== */
 
 function salvarLancamento(dados) {
 
@@ -134,9 +136,9 @@ function salvarLancamento(dados) {
 
 
 
-/* =========================
+/* ======================================
    BUSCAR TODOS
-========================= */
+====================================== */
 
 function buscarLancamentos() {
 
@@ -182,9 +184,9 @@ function buscarLancamentos() {
 
 
 
-/* =========================
+/* ======================================
    REMOVER
-========================= */
+====================================== */
 
 function removerLancamentoDB(id) {
 
@@ -230,39 +232,80 @@ function removerLancamentoDB(id) {
 
 
 
-/* =========================
+/* ======================================
    VARIÁVEIS
-========================= */
+====================================== */
 
 const form =
-    document.getElementById('formLancamento')
+    document.getElementById(
+        'formLancamento'
+    )
 
 const lista =
-    document.getElementById('listaLancamentos')
+    document.getElementById(
+        'listaLancamentos'
+    )
 
 const saldoTotal =
-    document.getElementById('saldoTotal')
+    document.getElementById(
+        'saldoTotal'
+    )
 
 const totalEntradas =
-    document.getElementById('totalEntradas')
+    document.getElementById(
+        'totalEntradas'
+    )
 
 const totalSaidas =
-    document.getElementById('totalSaidas')
+    document.getElementById(
+        'totalSaidas'
+    )
 
 const pesquisa =
-    document.getElementById('pesquisa')
+    document.getElementById(
+        'pesquisa'
+    )
+
+
+
+const exportarBtn =
+    document.getElementById(
+        'exportar'
+    )
+
+const importarArquivo =
+    document.getElementById(
+        'importarArquivo'
+    )
+
+
+
+const formParcela =
+    document.getElementById(
+        'formParcela'
+    )
+
+
+
+/* ======================================
+   CARTÃO
+====================================== */
+
+const LIMITE_CARTAO = 5000
 
 
 
 let lancamentos = []
 
+let grafico
 
 
 
 
-/* =========================
-   FORMATAR MOEDA
-========================= */
+
+/* ======================================
+   FORMATAR
+====================================== */
 
 function formatarMoeda(valor) {
 
@@ -280,11 +323,13 @@ function formatarMoeda(valor) {
 
 
 
-/* =========================
+/* ======================================
    ATUALIZAR TELA
-========================= */
+====================================== */
 
-function atualizarTela(listaFiltrada = lancamentos) {
+function atualizarTela(
+    listaFiltrada = lancamentos
+) {
 
     lista.innerHTML = ''
 
@@ -356,7 +401,9 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
             entradas += Number(item.valor)
 
-        } else {
+        }
+
+        else {
 
             saidas += Number(item.valor)
 
@@ -367,10 +414,16 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
 
     saldoTotal.textContent =
-        formatarMoeda(entradas - saidas)
+        formatarMoeda(
+            entradas - saidas
+        )
+
+
 
     totalEntradas.textContent =
         formatarMoeda(entradas)
+
+
 
     totalSaidas.textContent =
         formatarMoeda(saidas)
@@ -379,60 +432,163 @@ function atualizarTela(listaFiltrada = lancamentos) {
 
     atualizarGrafico()
 
+    atualizarCartao()
+
 }
 
 
 
 
 
-/* =========================
-   ADICIONAR
-========================= */
+/* ======================================
+   NOVO LANÇAMENTO
+====================================== */
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener(
+    'submit',
+    async (e) => {
 
-    e.preventDefault()
-
-
-
-    const descricao =
-        document.getElementById('descricao').value
-
-    const valor =
-        document.getElementById('valor').value
-
-    const tipo =
-        document.getElementById('tipo').value
-
-    const categoria =
-        document.getElementById('categoria').value
+        e.preventDefault()
 
 
 
-    await salvarLancamento({
-
-        descricao,
-        valor,
-        tipo,
-        categoria,
-        criadoEm: new Date()
-    })
+        const descricao =
+            document.getElementById(
+                'descricao'
+            ).value
 
 
 
-    await carregarLancamentos()
-
-    form.reset()
-
-})
-
+        const valor =
+            document.getElementById(
+                'valor'
+            ).value
 
 
 
+        const tipo =
+            document.getElementById(
+                'tipo'
+            ).value
 
-/* =========================
+
+
+        const categoria =
+            document.getElementById(
+                'categoria'
+            ).value
+
+
+
+        await salvarLancamento({
+
+            descricao,
+            valor,
+            tipo,
+            categoria,
+            criadoEm: new Date()
+
+        })
+
+
+
+        await carregarLancamentos()
+
+        form.reset()
+
+    }
+)
+
+
+
+
+
+/* ======================================
+   PARCELAMENTO
+====================================== */
+
+formParcela.addEventListener(
+    'submit',
+    async (e) => {
+
+        e.preventDefault()
+
+
+
+        const descricao =
+            document.getElementById(
+                'descricaoParcela'
+            ).value
+
+
+
+        const valorTotal =
+            Number(
+                document.getElementById(
+                    'valorTotalParcela'
+                ).value
+            )
+
+
+
+        const quantidadeParcelas =
+            Number(
+                document.getElementById(
+                    'quantidadeParcelas'
+                ).value
+            )
+
+
+
+        const valorParcela =
+            valorTotal / quantidadeParcelas
+
+
+
+        for (
+            let i = 1;
+            i <= quantidadeParcelas;
+            i++
+        ) {
+
+            await salvarLancamento({
+
+                descricao:
+                    `${descricao} (${i}/${quantidadeParcelas})`,
+
+                valor: valorParcela,
+
+                tipo: 'saida',
+
+                categoria: 'Cartão',
+
+                parcela: i,
+
+                totalParcelas:
+                    quantidadeParcelas,
+
+                criadoEm: new Date()
+
+            })
+
+        }
+
+
+
+        await carregarLancamentos()
+
+        formParcela.reset()
+
+    }
+)
+
+
+
+
+
+/* ======================================
    CARREGAR
-========================= */
+====================================== */
 
 async function carregarLancamentos() {
 
@@ -449,9 +605,9 @@ async function carregarLancamentos() {
 
 
 
-/* =========================
+/* ======================================
    REMOVER
-========================= */
+====================================== */
 
 async function remover(id) {
 
@@ -465,53 +621,158 @@ async function remover(id) {
 
 
 
-/* =========================
+/* ======================================
    PESQUISA
-========================= */
+====================================== */
 
-pesquisa.addEventListener('input', () => {
+pesquisa.addEventListener(
+    'input',
+    () => {
 
-    const texto =
-        pesquisa.value.toLowerCase()
+        const texto =
+            pesquisa.value.toLowerCase()
 
 
 
-    const filtrados =
-        lancamentos.filter((item) => {
+        const filtrados =
+            lancamentos.filter((item) => {
 
-            return (
+                return (
 
-                item.descricao
-                    .toLowerCase()
-                    .includes(texto)
+                    item.descricao
+                        .toLowerCase()
+                        .includes(texto)
 
-                ||
+                    ||
 
-                item.categoria
-                    .toLowerCase()
-                    .includes(texto)
+                    item.categoria
+                        .toLowerCase()
+                        .includes(texto)
 
+                )
+
+            })
+
+
+
+        atualizarTela(filtrados)
+
+    }
+)
+
+
+
+
+
+/* ======================================
+   EXPORTAR BACKUP
+====================================== */
+
+exportarBtn.addEventListener(
+    'click',
+    () => {
+
+        const dados =
+            JSON.stringify(lancamentos)
+
+
+
+        const blob =
+            new Blob(
+                [dados],
+                {
+                    type: 'application/json'
+                }
             )
 
-        })
+
+
+        const url =
+            URL.createObjectURL(blob)
 
 
 
-    atualizarTela(filtrados)
-
-})
-
+        const a =
+            document.createElement('a')
 
 
 
+        a.href = url
 
-/* =========================
+        a.download =
+            'backup-financeiro.json'
+
+
+
+        a.click()
+
+    }
+)
+
+
+
+
+
+/* ======================================
+   IMPORTAR BACKUP
+====================================== */
+
+importarArquivo.addEventListener(
+    'change',
+    async (evento) => {
+
+        const arquivo =
+            evento.target.files[0]
+
+
+
+        if (!arquivo) return
+
+
+
+        const leitor =
+            new FileReader()
+
+
+
+        leitor.onload =
+            async function (e) {
+
+                const dados =
+                    JSON.parse(e.target.result)
+
+
+
+                for (
+                    const item of dados
+                ) {
+
+                    delete item.id
+
+                    await salvarLancamento(item)
+
+                }
+
+
+
+                await carregarLancamentos()
+
+            }
+
+
+
+        leitor.readAsText(arquivo)
+
+    }
+)
+
+
+
+
+
+/* ======================================
    GRÁFICO
-========================= */
-
-let grafico
-
-
+====================================== */
 
 function atualizarGrafico() {
 
@@ -523,14 +784,21 @@ function atualizarGrafico() {
 
         if (item.tipo === 'saida') {
 
-            if (!categorias[item.categoria]) {
+            if (
+                !categorias[item.categoria]
+            ) {
 
-                categorias[item.categoria] = 0
+                categorias[
+                    item.categoria
+                ] = 0
 
             }
 
-            categorias[item.categoria] +=
-                Number(item.valor)
+
+
+            categorias[
+                item.categoria
+            ] += Number(item.valor)
 
         }
 
@@ -540,6 +808,8 @@ function atualizarGrafico() {
 
     const labels =
         Object.keys(categorias)
+
+
 
     const valores =
         Object.values(categorias)
@@ -583,6 +853,8 @@ function atualizarGrafico() {
 
         },
 
+
+
         options: {
 
             responsive: true,
@@ -611,9 +883,72 @@ function atualizarGrafico() {
 
 
 
-/* =========================
+/* ======================================
+   CARTÃO
+====================================== */
+
+function atualizarCartao() {
+
+    let usado = 0
+
+
+
+    lancamentos.forEach((item) => {
+
+        if (
+            item.categoria === 'Cartão'
+        ) {
+
+            usado += Number(item.valor)
+
+        }
+
+    })
+
+
+
+    const disponivel =
+        LIMITE_CARTAO - usado
+
+
+
+    document.getElementById(
+        'limiteTotal'
+    ).textContent =
+        formatarMoeda(
+            LIMITE_CARTAO
+        )
+
+
+
+    document.getElementById(
+        'limiteUsado'
+    ).textContent =
+        formatarMoeda(usado)
+
+
+
+    document.getElementById(
+        'limiteDisponivel'
+    ).textContent =
+        formatarMoeda(disponivel)
+
+
+
+    document.getElementById(
+        'faturaAtual'
+    ).textContent =
+        formatarMoeda(usado)
+
+}
+
+
+
+
+
+/* ======================================
    INICIAR
-========================= */
+====================================== */
 
 async function iniciar() {
 
