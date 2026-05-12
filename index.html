@@ -7,13 +7,35 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Controle Financeiro</title>
+    <title>
+        Controle Financeiro IA
+    </title>
+
+
+
+
+
+    <!-- CSS -->
 
     <link rel="stylesheet" href="style.css" />
 
+
+
+
+
+    <!-- PWA -->
+
     <link rel="manifest" href="manifest.json" />
 
+
+
     <meta name="theme-color" content="#020617" />
+
+
+
+
+
+    <!-- CHART -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -30,13 +52,21 @@
 
 
 
-        <!-- SIDEBAR -->
+        <!-- ======================================
+         SIDEBAR
+    ====================================== -->
 
         <aside class="sidebar">
 
             <div class="logo">
-                <h2>Finanças</h2>
+
+                <h2>
+                    Finanças IA
+                </h2>
+
             </div>
+
+
 
 
 
@@ -48,9 +78,13 @@
 
 
 
+
+
                 <button class="menu-item" data-page="lancamentos">
                     Lançamentos
                 </button>
+
+
 
 
 
@@ -60,9 +94,21 @@
 
 
 
+
+
                 <button class="menu-item" data-page="cartoes">
                     Cartões
                 </button>
+
+
+
+
+
+                <button class="menu-item" data-page="assistente">
+                    Assistente IA
+                </button>
+
+
 
 
 
@@ -78,14 +124,18 @@
 
 
 
-        <!-- CONTEÚDO -->
+        <!-- ======================================
+         CONTEÚDO
+    ====================================== -->
 
         <main class="conteudo">
 
 
 
 
-            <!-- DASHBOARD -->
+            <!-- ======================================
+           DASHBOARD
+      ====================================== -->
 
             <section class="pagina ativa" id="dashboard">
 
@@ -163,7 +213,7 @@
 
 
 
-                <!-- GRÁFICO -->
+                <!-- GRÁFICOS -->
 
                 <section class="graficos">
 
@@ -191,7 +241,9 @@
 
 
 
-            <!-- LANÇAMENTOS -->
+            <!-- ======================================
+           LANÇAMENTOS
+      ====================================== -->
 
             <section class="pagina" id="lancamentos">
 
@@ -257,6 +309,10 @@
                                 </option>
 
                                 <option>
+                                    Mercado
+                                </option>
+
+                                <option>
                                     Lazer
                                 </option>
 
@@ -265,11 +321,31 @@
                                 </option>
 
                                 <option>
-                                    Investimento
+                                    Cartão
                                 </option>
 
                                 <option>
-                                    Cartão
+                                    Investimento
+                                </option>
+
+                            </select>
+
+
+
+
+
+                            <select id="conta">
+
+                                <option>
+                                    Nubank
+                                </option>
+
+                                <option>
+                                    Itaú
+                                </option>
+
+                                <option>
+                                    Dinheiro
                                 </option>
 
                             </select>
@@ -326,7 +402,9 @@
 
 
 
-            <!-- METAS -->
+            <!-- ======================================
+           METAS
+      ====================================== -->
 
             <section class="pagina" id="metas">
 
@@ -360,6 +438,8 @@
 
 
 
+
+
                         <div class="barra-meta">
 
                             <div class="progresso" style="width: 40%;"></div>
@@ -384,14 +464,16 @@
 
 
 
-            <!-- CARTÕES -->
+            <!-- ======================================
+           CARTÕES
+      ====================================== -->
 
             <section class="pagina" id="cartoes">
 
 
 
 
-                <!-- CONFIGURAÇÃO -->
+                <!-- CONFIG -->
 
                 <div class="config-cartao-box">
 
@@ -409,19 +491,19 @@
 
                     <form id="formConfigCartao">
 
-                        <input type="number" id="limiteCartaoInput" placeholder="Limite do cartão" required />
+                        <input type="number" id="limiteCartaoInput" placeholder="Limite" required />
 
 
 
 
 
-                        <input type="number" id="fechamentoCartao" placeholder="Dia fechamento" required />
+                        <input type="number" id="fechamentoCartao" placeholder="Fechamento" required />
 
 
 
 
 
-                        <input type="number" id="vencimentoCartao" placeholder="Dia vencimento" required />
+                        <input type="number" id="vencimentoCartao" placeholder="Vencimento" required />
 
 
 
@@ -441,7 +523,7 @@
 
 
 
-                <!-- CARTÃO -->
+                <!-- CARTÕES -->
 
                 <section class="cartoes-area">
 
@@ -517,6 +599,10 @@
                                 Fatura Atual
                             </span>
 
+
+
+
+
                             <h2 id="faturaAtual">
                                 R$ 0,00
                             </h2>
@@ -569,13 +655,13 @@
 
 
 
-                            <input type="number" id="valorTotalParcela" placeholder="Valor Total" required />
+                            <input type="number" id="valorTotalParcela" placeholder="Valor total" required />
 
 
 
 
 
-                            <input type="number" id="quantidadeParcelas" placeholder="Quantidade Parcelas" required />
+                            <input type="number" id="quantidadeParcelas" placeholder="Quantidade parcelas" required />
 
 
 
@@ -599,7 +685,120 @@
 
 
 
-            <!-- CONFIGURAÇÕES -->
+            <!-- ======================================
+           ASSISTENTE IA
+      ====================================== -->
+
+            <section class="pagina" id="assistente">
+
+                <div class="ia-container">
+
+                    <div class="titulo-box">
+
+                        <h2>
+                            Assistente Financeiro IA
+                        </h2>
+
+                        <p class="ia-subtitulo">
+
+                            Converse naturalmente sobre seu dinheiro.
+
+                        </p>
+
+                    </div>
+
+
+
+
+
+                    <!-- CHAT -->
+
+                    <div id="chatMensagens">
+
+                        <div class="mensagem ia">
+
+                            Olá 👋<br><br>
+
+                            Eu sou sua IA financeira.<br><br>
+
+                            Posso:
+                            <br><br>
+
+                            • registrar gastos<br>
+                            • registrar entradas<br>
+                            • analisar seus hábitos<br>
+                            • consultar categorias<br>
+                            • consultar cartão<br>
+                            • analisar faturas<br>
+                            • comparar meses<br>
+                            • entender contexto financeiro<br><br>
+
+                            Exemplos:
+                            <br><br>
+
+                            “ifood 50”<br>
+                            “mercado 300 no crédito em 3x”<br>
+                            “estou gastando muito?”<br>
+                            “quanto gastei de alimentação mês passado?”<br>
+                            “como está minha situação financeira?”<br>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <!-- INPUT -->
+
+                    <div class="chat-input-area">
+
+                        <input type="text" id="chatInput" placeholder="Converse naturalmente..." />
+
+
+
+
+
+                        <button id="enviarIA">
+
+                            Enviar
+
+                        </button>
+
+                    </div>
+
+
+
+
+
+                    <!-- STATUS IA -->
+
+                    <div class="ia-status">
+
+                        <div class="status-item">
+
+                            <span class="status-dot"></span>
+
+                            <small>
+                                IA conectada com OpenAI
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+
+
+            <!-- ======================================
+           CONFIGURAÇÕES
+      ====================================== -->
 
             <section class="pagina" id="configuracoes">
 
@@ -644,6 +843,8 @@
 
 
 
+
+    <!-- APP -->
 
     <script src="app.js"></script>
 

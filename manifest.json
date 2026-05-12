@@ -1,13 +1,18 @@
 {
-    "name": "Controle Financeiro",
+    "name": "Finanças IA",
     "short_name": "Finanças",
-    "description": "Aplicativo de controle financeiro pessoal com dashboard, cartão de crédito, parcelamento e metas.",
+    "description": "Assistente financeiro inteligente com OpenAI, análise financeira, cartão de crédito e IA conversacional.",
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#020617",
     "theme_color": "#020617",
     "lang": "pt-BR",
+    "categories": [
+        "finance",
+        "productivity",
+        "business"
+    ],
     "icons": [
         {
             "src": "icons/icon-192.png",

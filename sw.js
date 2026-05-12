@@ -1,4 +1,5 @@
-const CACHE_NAME = 'controle-financeiro-v4'
+const CACHE_NAME =
+    'financas-ia-v2'
 
 
 
@@ -21,7 +22,9 @@ const urlsToCache = [
 ====================================== */
 
 self.addEventListener(
+
     'install',
+
     (event) => {
 
         event.waitUntil(
@@ -39,6 +42,7 @@ self.addEventListener(
         )
 
     }
+
 )
 
 
@@ -50,7 +54,9 @@ self.addEventListener(
 ====================================== */
 
 self.addEventListener(
+
     'fetch',
+
     (event) => {
 
         event.respondWith(
@@ -69,6 +75,7 @@ self.addEventListener(
         )
 
     }
+
 )
 
 
@@ -80,7 +87,9 @@ self.addEventListener(
 ====================================== */
 
 self.addEventListener(
+
     'activate',
+
     (event) => {
 
         event.waitUntil(
@@ -115,4 +124,5 @@ self.addEventListener(
         )
 
     }
+
 )
