@@ -1,4 +1,4 @@
-const CACHE_NAME = 'controle-financeiro-v3'
+const CACHE_NAME = 'controle-financeiro-v4'
 
 
 
@@ -17,7 +17,7 @@ const urlsToCache = [
 
 
 /* ======================================
-   INSTALAR
+   INSTALL
 ====================================== */
 
 self.addEventListener(
@@ -76,7 +76,7 @@ self.addEventListener(
 
 
 /* ======================================
-   ATUALIZAR CACHE
+   ACTIVATE
 ====================================== */
 
 self.addEventListener(

@@ -3,10 +3,31 @@
 ====================================== */
 
 const DB_NAME = 'controleFinanceiroDB'
-const DB_VERSION = 1
+const DB_VERSION = 2
 const STORE_NAME = 'lancamentos'
 
+
+
 let db
+
+
+
+/* ======================================
+   CONFIG CARTÃO
+====================================== */
+
+let configCartao =
+    JSON.parse(
+        localStorage.getItem(
+            'configCartao'
+        )
+    ) || {
+
+        limite: 5000,
+        fechamento: 10,
+        vencimento: 17
+
+    }
 
 
 
@@ -313,6 +334,13 @@ const formParcela =
 
 
 
+const formConfigCartao =
+    document.getElementById(
+        'formConfigCartao'
+    )
+
+
+
 const menuItems =
     document.querySelectorAll(
         '.menu-item'
@@ -330,8 +358,6 @@ const paginas =
 /* ======================================
    VARIÁVEIS
 ====================================== */
-
-const LIMITE_CARTAO = 5000
 
 let lancamentos = []
 
@@ -392,6 +418,60 @@ menuItems.forEach((item) => {
     )
 
 })
+
+
+
+
+
+/* ======================================
+   CONFIG CARTÃO
+====================================== */
+
+formConfigCartao.addEventListener(
+    'submit',
+    (e) => {
+
+        e.preventDefault()
+
+
+
+        configCartao = {
+
+            limite: Number(
+                document.getElementById(
+                    'limiteCartaoInput'
+                ).value
+            ),
+
+            fechamento: Number(
+                document.getElementById(
+                    'fechamentoCartao'
+                ).value
+            ),
+
+            vencimento: Number(
+                document.getElementById(
+                    'vencimentoCartao'
+                ).value
+            )
+
+        }
+
+
+
+        localStorage.setItem(
+            'configCartao',
+            JSON.stringify(
+                configCartao
+            )
+        )
+
+
+
+        atualizarCartao()
+
+    }
+)
 
 
 
@@ -540,7 +620,7 @@ function atualizarTela(
 
 
 /* ======================================
-   ADICIONAR
+   NOVO LANÇAMENTO
 ====================================== */
 
 form.addEventListener(
@@ -585,7 +665,8 @@ form.addEventListener(
             valor,
             tipo,
             categoria,
-            criadoEm: new Date()
+            criadoEm:
+                new Date()
 
         })
 
@@ -603,7 +684,7 @@ form.addEventListener(
 
 
 /* ======================================
-   PARCELAMENTO
+   PARCELAMENTO REAL
 ====================================== */
 
 formParcela.addEventListener(
@@ -651,6 +732,18 @@ formParcela.addEventListener(
             i++
         ) {
 
+            const dataParcela =
+                new Date()
+
+
+
+            dataParcela.setMonth(
+                dataParcela.getMonth()
+                + (i - 1)
+            )
+
+
+
             await salvarLancamento({
 
                 descricao:
@@ -669,7 +762,9 @@ formParcela.addEventListener(
                     quantidadeParcelas,
 
                 criadoEm:
-                    new Date()
+                    dataParcela,
+
+                cartao: true
 
             })
 
@@ -1019,26 +1114,65 @@ function atualizarGrafico() {
 
 
 /* ======================================
-   CARTÃO
+   CARTÃO REAL
 ====================================== */
 
 function atualizarCartao() {
 
-    let usado = 0
+    let limiteUsado = 0
+
+    let faturaAtual = 0
+
+
+
+    const hoje =
+        new Date()
+
+
+
+    const mesAtual =
+        hoje.getMonth()
+
+
+
+    const anoAtual =
+        hoje.getFullYear()
 
 
 
     lancamentos.forEach(
         (item) => {
 
-            if (
-                item.categoria ===
-                'Cartão'
-            ) {
+            if (item.cartao) {
 
-                usado += Number(
-                    item.valor
-                )
+                limiteUsado +=
+                    Number(item.valor)
+
+
+
+                const data =
+                    new Date(
+                        item.criadoEm
+                    )
+
+
+
+                if (
+
+                    data.getMonth()
+                    === mesAtual
+
+                    &&
+
+                    data.getFullYear()
+                    === anoAtual
+
+                ) {
+
+                    faturaAtual +=
+                        Number(item.valor)
+
+                }
 
             }
 
@@ -1048,7 +1182,8 @@ function atualizarCartao() {
 
 
     const disponivel =
-        LIMITE_CARTAO - usado
+        configCartao.limite
+        - limiteUsado
 
 
 
@@ -1056,7 +1191,7 @@ function atualizarCartao() {
         'limiteTotal'
     ).textContent =
         formatarMoeda(
-            LIMITE_CARTAO
+            configCartao.limite
         )
 
 
@@ -1065,7 +1200,7 @@ function atualizarCartao() {
         'limiteUsado'
     ).textContent =
         formatarMoeda(
-            usado
+            limiteUsado
         )
 
 
@@ -1083,8 +1218,24 @@ function atualizarCartao() {
         'faturaAtual'
     ).textContent =
         formatarMoeda(
-            usado
+            faturaAtual
         )
+
+
+
+    document.getElementById(
+        'fechamentoTexto'
+    ).textContent =
+
+        `Fechamento dia ${configCartao.fechamento}`
+
+
+
+    document.getElementById(
+        'vencimentoTexto'
+    ).textContent =
+
+        `Vencimento dia ${configCartao.vencimento}`
 
 }
 
@@ -1097,6 +1248,27 @@ function atualizarCartao() {
 ====================================== */
 
 async function iniciar() {
+
+    document.getElementById(
+        'limiteCartaoInput'
+    ).value =
+        configCartao.limite
+
+
+
+    document.getElementById(
+        'fechamentoCartao'
+    ).value =
+        configCartao.fechamento
+
+
+
+    document.getElementById(
+        'vencimentoCartao'
+    ).value =
+        configCartao.vencimento
+
+
 
     await abrirBanco()
 

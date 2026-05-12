@@ -1,7 +1,7 @@
 {
     "name": "Controle Financeiro",
     "short_name": "Finanças",
-    "description": "Aplicativo de controle financeiro pessoal.",
+    "description": "Aplicativo de controle financeiro pessoal com dashboard, cartão de crédito, parcelamento e metas.",
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "portrait",

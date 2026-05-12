@@ -388,6 +388,61 @@
 
             <section class="pagina" id="cartoes">
 
+
+
+
+                <!-- CONFIGURAÇÃO -->
+
+                <div class="config-cartao-box">
+
+                    <div class="titulo-box">
+
+                        <h2>
+                            Configurar Cartão
+                        </h2>
+
+                    </div>
+
+
+
+
+
+                    <form id="formConfigCartao">
+
+                        <input type="number" id="limiteCartaoInput" placeholder="Limite do cartão" required />
+
+
+
+
+
+                        <input type="number" id="fechamentoCartao" placeholder="Dia fechamento" required />
+
+
+
+
+
+                        <input type="number" id="vencimentoCartao" placeholder="Dia vencimento" required />
+
+
+
+
+
+                        <button type="submit">
+
+                            Salvar Configuração
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+
+
+
+                <!-- CARTÃO -->
+
                 <section class="cartoes-area">
 
                     <div class="cartao-box">
@@ -466,8 +521,20 @@
                                 R$ 0,00
                             </h2>
 
-                            <p>
+
+
+
+
+                            <p id="fechamentoTexto">
                                 Fechamento dia 10
+                            </p>
+
+
+
+
+
+                            <p id="vencimentoTexto">
+                                Vencimento dia 17
                             </p>
 
                         </div>
@@ -509,18 +576,6 @@
 
 
                             <input type="number" id="quantidadeParcelas" placeholder="Quantidade Parcelas" required />
-
-
-
-
-
-                            <select id="cartaoSelecionado">
-
-                                <option>
-                                    Nubank
-                                </option>
-
-                            </select>
 
 
 

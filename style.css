@@ -126,8 +126,12 @@ body {
 .card {
     padding: 24px;
     border-radius: 24px;
-    background: linear-gradient(145deg, #0f172a, #1e293b);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg,
+            #0f172a,
+            #1e293b);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .card span {
@@ -151,7 +155,7 @@ body {
 
 
 
-/* GRÁFICOS */
+/* GRÁFICO */
 
 .graficos {
     margin-bottom: 30px;
@@ -171,9 +175,22 @@ body {
 
 
 
-/* TITULOS */
+/* TITULO */
 
 .titulo-box {
+    margin-bottom: 20px;
+}
+
+
+
+
+
+/* CARTÃO CONFIG */
+
+.config-cartao-box {
+    background: #0f172a;
+    border-radius: 24px;
+    padding: 24px;
     margin-bottom: 20px;
 }
 
@@ -218,7 +235,14 @@ body {
     font-size: 28px;
 }
 
+
+
+
+
+/* FATURA */
+
 .fatura-box {
+
     margin-top: 24px;
 
     background: linear-gradient(145deg,
@@ -260,7 +284,7 @@ body {
 
 
 
-/* FORM */
+/* BOXES */
 
 .formulario-box,
 .lista-box,
@@ -271,6 +295,12 @@ body {
     border-radius: 24px;
     padding: 24px;
 }
+
+
+
+
+
+/* FORM */
 
 form {
     display: flex;
@@ -333,12 +363,17 @@ ul {
 
 li {
     background: #111827;
+
     border-radius: 18px;
+
     padding: 18px;
+
     margin-bottom: 14px;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 }
 
