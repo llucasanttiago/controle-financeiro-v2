@@ -42,23 +42,31 @@
 
             <nav class="menu-lateral">
 
-                <button class="menu-item ativo">
+                <button class="menu-item ativo" data-page="dashboard">
                     Dashboard
                 </button>
 
-                <button class="menu-item">
+
+
+                <button class="menu-item" data-page="lancamentos">
                     Lançamentos
                 </button>
 
-                <button class="menu-item">
+
+
+                <button class="menu-item" data-page="metas">
                     Metas
                 </button>
 
-                <button class="menu-item">
+
+
+                <button class="menu-item" data-page="cartoes">
                     Cartões
                 </button>
 
-                <button class="menu-item">
+
+
+                <button class="menu-item" data-page="configuracoes">
                     Configurações
                 </button>
 
@@ -77,209 +85,42 @@
 
 
 
+            <!-- DASHBOARD -->
 
-            <!-- TOPO -->
+            <section class="pagina ativa" id="dashboard">
 
-            <header class="topo">
+                <header class="topo">
 
-                <div>
+                    <div>
 
-                    <h1>
-                        Dashboard Financeiro
-                    </h1>
-
-                    <p>
-                        Controle total do seu dinheiro
-                    </p>
-
-                </div>
-
-            </header>
-
-
-
-
-
-            <!-- CARDS -->
-
-            <section class="cards">
-
-                <div class="card saldo-card">
-
-                    <span>
-                        Saldo Total
-                    </span>
-
-                    <h2 id="saldoTotal">
-                        R$ 0,00
-                    </h2>
-
-                </div>
-
-
-
-
-
-                <div class="card entrada-card">
-
-                    <span>
-                        Entradas
-                    </span>
-
-                    <h2 id="totalEntradas">
-                        R$ 0,00
-                    </h2>
-
-                </div>
-
-
-
-
-
-                <div class="card saida-card">
-
-                    <span>
-                        Saídas
-                    </span>
-
-                    <h2 id="totalSaidas">
-                        R$ 0,00
-                    </h2>
-
-                </div>
-
-            </section>
-
-
-
-
-
-            <!-- GRÁFICOS -->
-
-            <section class="graficos">
-
-                <div class="grafico-box">
-
-                    <div class="titulo-box">
-
-                        <h3>
-                            Gastos por categoria
-                        </h3>
-
-                    </div>
-
-
-
-                    <canvas id="graficoCategorias"></canvas>
-
-                </div>
-
-            </section>
-
-
-
-
-
-            <!-- CARTÃO -->
-
-            <section class="cartoes-area">
-
-                <div class="cartao-box">
-
-                    <div class="titulo-box">
-
-                        <h2>
-                            Cartão de Crédito
-                        </h2>
-
-                    </div>
-
-
-
-
-
-                    <div class="cartao-resumo">
-
-                        <div class="cartao-info">
-
-                            <span>
-                                Limite Total
-                            </span>
-
-                            <h3 id="limiteTotal">
-                                R$ 0,00
-                            </h3>
-
-                        </div>
-
-
-
-
-
-                        <div class="cartao-info">
-
-                            <span>
-                                Limite Usado
-                            </span>
-
-                            <h3 id="limiteUsado">
-                                R$ 0,00
-                            </h3>
-
-                        </div>
-
-
-
-
-
-                        <div class="cartao-info">
-
-                            <span>
-                                Disponível
-                            </span>
-
-                            <h3 id="limiteDisponivel">
-                                R$ 0,00
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-
-
-
-
-                    <div class="fatura-box">
-
-                        <span>
-                            Fatura Atual
-                        </span>
-
-                        <h2 id="faturaAtual">
-                            R$ 0,00
-                        </h2>
+                        <h1>
+                            Dashboard Financeiro
+                        </h1>
 
                         <p>
-                            Fechamento dia 10
+                            Controle total do seu dinheiro
                         </p>
 
                     </div>
 
-                </div>
+                </header>
 
 
 
 
 
-                <!-- PARCELAMENTO -->
+                <!-- CARDS -->
 
-                <div class="parcelamento-box">
+                <section class="cards">
 
-                    <div class="titulo-box">
+                    <div class="card saldo-card">
 
-                        <h2>
-                            Compra Parcelada
+                        <span>
+                            Saldo Total
+                        </span>
+
+                        <h2 id="saldoTotal">
+                            R$ 0,00
                         </h2>
 
                     </div>
@@ -288,45 +129,252 @@
 
 
 
-                    <form id="formParcela">
+                    <div class="card entrada-card">
 
-                        <input type="text" id="descricaoParcela" placeholder="Descrição" required />
+                        <span>
+                            Entradas
+                        </span>
 
+                        <h2 id="totalEntradas">
+                            R$ 0,00
+                        </h2>
 
-
-
-
-                        <input type="number" id="valorTotalParcela" placeholder="Valor Total" required />
-
-
-
-
-
-                        <input type="number" id="quantidadeParcelas" placeholder="Quantidade Parcelas" required />
+                    </div>
 
 
 
 
 
-                        <select id="cartaoSelecionado">
+                    <div class="card saida-card">
 
-                            <option>
-                                Nubank
-                            </option>
+                        <span>
+                            Saídas
+                        </span>
 
-                        </select>
+                        <h2 id="totalSaidas">
+                            R$ 0,00
+                        </h2>
+
+                    </div>
+
+                </section>
 
 
 
 
 
-                        <button type="submit">
+                <!-- GRÁFICO -->
 
-                            Adicionar Parcela
+                <section class="graficos">
 
-                        </button>
+                    <div class="grafico-box">
 
-                    </form>
+                        <div class="titulo-box">
+
+                            <h3>
+                                Gastos por categoria
+                            </h3>
+
+                        </div>
+
+
+
+                        <canvas id="graficoCategorias"></canvas>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+
+
+
+            <!-- LANÇAMENTOS -->
+
+            <section class="pagina" id="lancamentos">
+
+                <section class="painel">
+
+
+
+
+                    <!-- FORM -->
+
+                    <div class="formulario-box">
+
+                        <div class="titulo-box">
+
+                            <h2>
+                                Novo lançamento
+                            </h2>
+
+                        </div>
+
+
+
+
+
+                        <form id="formLancamento">
+
+                            <input type="text" id="descricao" placeholder="Descrição" required />
+
+
+
+
+
+                            <input type="number" id="valor" placeholder="Valor" required />
+
+
+
+
+
+                            <select id="tipo">
+
+                                <option value="entrada">
+                                    Entrada
+                                </option>
+
+                                <option value="saida">
+                                    Saída
+                                </option>
+
+                            </select>
+
+
+
+
+
+                            <select id="categoria">
+
+                                <option>
+                                    Alimentação
+                                </option>
+
+                                <option>
+                                    Transporte
+                                </option>
+
+                                <option>
+                                    Lazer
+                                </option>
+
+                                <option>
+                                    Contas
+                                </option>
+
+                                <option>
+                                    Investimento
+                                </option>
+
+                                <option>
+                                    Cartão
+                                </option>
+
+                            </select>
+
+
+
+
+
+                            <button type="submit">
+
+                                Salvar
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+
+
+
+                    <!-- LISTA -->
+
+                    <div class="lista-box">
+
+                        <div class="lista-topo">
+
+                            <h2>
+                                Lançamentos
+                            </h2>
+
+
+
+
+
+                            <input type="text" id="pesquisa" placeholder="Pesquisar" />
+
+                        </div>
+
+
+
+
+
+                        <ul id="listaLancamentos"></ul>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+
+
+
+            <!-- METAS -->
+
+            <section class="pagina" id="metas">
+
+                <div class="metas-box">
+
+                    <div class="titulo-box">
+
+                        <h2>
+                            Metas Financeiras
+                        </h2>
+
+                    </div>
+
+
+
+
+
+                    <div class="meta-card">
+
+                        <div class="meta-topo">
+
+                            <strong>
+                                Reserva de emergência
+                            </strong>
+
+                            <span>
+                                40%
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="barra-meta">
+
+                            <div class="progresso" style="width: 40%;"></div>
+
+                        </div>
+
+
+
+
+
+                        <small>
+                            R$ 4.000 / R$ 10.000
+                        </small>
+
+                    </div>
 
                 </div>
 
@@ -336,121 +384,93 @@
 
 
 
-            <!-- PAINEL -->
+            <!-- CARTÕES -->
 
-            <section class="painel">
+            <section class="pagina" id="cartoes">
 
+                <section class="cartoes-area">
 
+                    <div class="cartao-box">
 
+                        <div class="titulo-box">
 
+                            <h2>
+                                Cartão de Crédito
+                            </h2>
 
-                <!-- FORMULÁRIO -->
-
-                <div class="formulario-box">
-
-                    <div class="titulo-box">
-
-                        <h2>
-                            Novo lançamento
-                        </h2>
-
-                    </div>
+                        </div>
 
 
 
 
 
-                    <form id="formLancamento">
+                        <div class="cartao-resumo">
 
-                        <input type="text" id="descricao" placeholder="Descrição" required />
+                            <div class="cartao-info">
 
+                                <span>
+                                    Limite Total
+                                </span>
 
+                                <h3 id="limiteTotal">
+                                    R$ 0,00
+                                </h3>
 
-
-
-                        <input type="number" id="valor" placeholder="Valor" required />
-
-
-
-
-
-                        <select id="tipo">
-
-                            <option value="entrada">
-                                Entrada
-                            </option>
-
-                            <option value="saida">
-                                Saída
-                            </option>
-
-                        </select>
+                            </div>
 
 
 
 
 
-                        <select id="categoria">
+                            <div class="cartao-info">
 
-                            <option>
-                                Alimentação
-                            </option>
+                                <span>
+                                    Limite Usado
+                                </span>
 
-                            <option>
-                                Transporte
-                            </option>
+                                <h3 id="limiteUsado">
+                                    R$ 0,00
+                                </h3>
 
-                            <option>
-                                Lazer
-                            </option>
-
-                            <option>
-                                Contas
-                            </option>
-
-                            <option>
-                                Investimento
-                            </option>
-
-                            <option>
-                                Cartão
-                            </option>
-
-                        </select>
+                            </div>
 
 
 
 
 
-                        <button type="submit">
+                            <div class="cartao-info">
 
-                            Salvar
+                                <span>
+                                    Disponível
+                                </span>
 
-                        </button>
+                                <h3 id="limiteDisponivel">
+                                    R$ 0,00
+                                </h3>
 
-                    </form>
+                            </div>
 
-                </div>
-
-
-
-
-
-                <!-- LISTA -->
-
-                <div class="lista-box">
-
-                    <div class="lista-topo">
-
-                        <h2>
-                            Lançamentos
-                        </h2>
+                        </div>
 
 
 
 
 
-                        <input type="text" id="pesquisa" placeholder="Pesquisar" />
+                        <div class="fatura-box">
+
+                            <span>
+                                Fatura Atual
+                            </span>
+
+                            <h2 id="faturaAtual">
+                                R$ 0,00
+                            </h2>
+
+                            <p>
+                                Fechamento dia 10
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -458,13 +478,65 @@
 
 
 
-                    <ul id="listaLancamentos">
+                    <!-- PARCELAMENTO -->
 
-                        <!-- JS -->
+                    <div class="parcelamento-box">
 
-                    </ul>
+                        <div class="titulo-box">
 
-                </div>
+                            <h2>
+                                Compra Parcelada
+                            </h2>
+
+                        </div>
+
+
+
+
+
+                        <form id="formParcela">
+
+                            <input type="text" id="descricaoParcela" placeholder="Descrição" required />
+
+
+
+
+
+                            <input type="number" id="valorTotalParcela" placeholder="Valor Total" required />
+
+
+
+
+
+                            <input type="number" id="quantidadeParcelas" placeholder="Quantidade Parcelas" required />
+
+
+
+
+
+                            <select id="cartaoSelecionado">
+
+                                <option>
+                                    Nubank
+                                </option>
+
+                            </select>
+
+
+
+
+
+                            <button type="submit">
+
+                                Adicionar Parcela
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </section>
 
             </section>
 
@@ -472,21 +544,41 @@
 
 
 
-            <!-- BACKUP -->
+            <!-- CONFIGURAÇÕES -->
 
-            <section class="backup-box">
+            <section class="pagina" id="configuracoes">
 
-                <button id="exportar">
+                <div class="config-box">
 
-                    Exportar Backup
+                    <div class="titulo-box">
 
-                </button>
+                        <h2>
+                            Backup e Configurações
+                        </h2>
+
+                    </div>
 
 
 
 
 
-                <input type="file" id="importarArquivo" />
+                    <div class="backup-box">
+
+                        <button id="exportar">
+
+                            Exportar Backup
+
+                        </button>
+
+
+
+
+
+                        <input type="file" id="importarArquivo" />
+
+                    </div>
+
+                </div>
 
             </section>
 

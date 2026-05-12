@@ -1,4 +1,4 @@
-const CACHE_NAME = 'controle-financeiro-v2'
+const CACHE_NAME = 'controle-financeiro-v3'
 
 
 
@@ -17,7 +17,7 @@ const urlsToCache = [
 
 
 /* ======================================
-   INSTALAÇÃO
+   INSTALAR
 ====================================== */
 
 self.addEventListener(
@@ -26,14 +26,15 @@ self.addEventListener(
 
         event.waitUntil(
 
-            caches.open(CACHE_NAME)
-                .then((cache) => {
+            caches.open(
+                CACHE_NAME
+            ).then((cache) => {
 
-                    return cache.addAll(
-                        urlsToCache
-                    )
+                return cache.addAll(
+                    urlsToCache
+                )
 
-                })
+            })
 
         )
 
@@ -54,15 +55,16 @@ self.addEventListener(
 
         event.respondWith(
 
-            caches.match(event.request)
-                .then((response) => {
+            caches.match(
+                event.request
+            ).then((response) => {
 
-                    return (
-                        response ||
-                        fetch(event.request)
-                    )
+                return (
+                    response ||
+                    fetch(event.request)
+                )
 
-                })
+            })
 
         )
 
@@ -74,7 +76,7 @@ self.addEventListener(
 
 
 /* ======================================
-   ATUALIZAÇÃO
+   ATUALIZAR CACHE
 ====================================== */
 
 self.addEventListener(
@@ -83,26 +85,32 @@ self.addEventListener(
 
         event.waitUntil(
 
-            caches.keys()
-                .then((cacheNames) => {
+            caches.keys().then(
+                (cacheNames) => {
 
                     return Promise.all(
 
-                        cacheNames.map((cache) => {
+                        cacheNames.map(
+                            (cache) => {
 
-                            if (
-                                cache !== CACHE_NAME
-                            ) {
+                                if (
+                                    cache !==
+                                    CACHE_NAME
+                                ) {
 
-                                return caches.delete(cache)
+                                    return caches.delete(
+                                        cache
+                                    )
+
+                                }
 
                             }
-
-                        })
+                        )
 
                     )
 
-                })
+                }
+            )
 
         )
 

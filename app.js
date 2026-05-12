@@ -10,6 +10,8 @@ let db
 
 
 
+
+
 /* ======================================
    ABRIR BANCO
 ====================================== */
@@ -19,66 +21,82 @@ function abrirBanco() {
     return new Promise((resolve, reject) => {
 
         const request =
-            indexedDB.open(DB_NAME, DB_VERSION)
+            indexedDB.open(
+                DB_NAME,
+                DB_VERSION
+            )
 
 
 
-        request.onupgradeneeded = (event) => {
+        request.onupgradeneeded =
+            (event) => {
 
-            db = event.target.result
+                db =
+                    event.target.result
 
 
 
-            if (
-                !db.objectStoreNames.contains(STORE_NAME)
-            ) {
+                if (
+                    !db.objectStoreNames.contains(
+                        STORE_NAME
+                    )
+                ) {
 
-                const store =
-                    db.createObjectStore(
-                        STORE_NAME,
+                    const store =
+                        db.createObjectStore(
+                            STORE_NAME,
+                            {
+                                keyPath: 'id',
+                                autoIncrement: true
+                            }
+                        )
+
+
+
+                    store.createIndex(
+                        'descricao',
+                        'descricao',
                         {
-                            keyPath: 'id',
-                            autoIncrement: true
+                            unique: false
                         }
                     )
 
 
 
-                store.createIndex(
-                    'descricao',
-                    'descricao',
-                    { unique: false }
-                )
+                    store.createIndex(
+                        'categoria',
+                        'categoria',
+                        {
+                            unique: false
+                        }
+                    )
 
-
-
-                store.createIndex(
-                    'categoria',
-                    'categoria',
-                    { unique: false }
-                )
+                }
 
             }
 
-        }
+
+
+        request.onsuccess =
+            (event) => {
+
+                db =
+                    event.target.result
+
+                resolve(db)
+
+            }
 
 
 
-        request.onsuccess = (event) => {
+        request.onerror =
+            (event) => {
 
-            db = event.target.result
+                reject(
+                    event.target.error
+                )
 
-            resolve(db)
-
-        }
-
-
-
-        request.onerror = (event) => {
-
-            reject(event.target.error)
-
-        }
+            }
 
     })
 
@@ -105,7 +123,9 @@ function salvarLancamento(dados) {
 
 
         const store =
-            transaction.objectStore(STORE_NAME)
+            transaction.objectStore(
+                STORE_NAME
+            )
 
 
 
@@ -137,7 +157,7 @@ function salvarLancamento(dados) {
 
 
 /* ======================================
-   BUSCAR TODOS
+   BUSCAR
 ====================================== */
 
 function buscarLancamentos() {
@@ -153,7 +173,9 @@ function buscarLancamentos() {
 
 
         const store =
-            transaction.objectStore(STORE_NAME)
+            transaction.objectStore(
+                STORE_NAME
+            )
 
 
 
@@ -164,7 +186,9 @@ function buscarLancamentos() {
 
         request.onsuccess = () => {
 
-            resolve(request.result)
+            resolve(
+                request.result
+            )
 
         }
 
@@ -201,7 +225,9 @@ function removerLancamentoDB(id) {
 
 
         const store =
-            transaction.objectStore(STORE_NAME)
+            transaction.objectStore(
+                STORE_NAME
+            )
 
 
 
@@ -233,7 +259,7 @@ function removerLancamentoDB(id) {
 
 
 /* ======================================
-   VARIÁVEIS
+   ELEMENTOS
 ====================================== */
 
 const form =
@@ -287,17 +313,85 @@ const formParcela =
 
 
 
+const menuItems =
+    document.querySelectorAll(
+        '.menu-item'
+    )
+
+const paginas =
+    document.querySelectorAll(
+        '.pagina'
+    )
+
+
+
+
+
 /* ======================================
-   CARTÃO
+   VARIÁVEIS
 ====================================== */
 
 const LIMITE_CARTAO = 5000
 
-
-
 let lancamentos = []
 
 let grafico
+
+
+
+
+
+/* ======================================
+   MENU
+====================================== */
+
+menuItems.forEach((item) => {
+
+    item.addEventListener(
+        'click',
+        () => {
+
+            menuItems.forEach((btn) => {
+
+                btn.classList.remove(
+                    'ativo'
+                )
+
+            })
+
+
+
+            item.classList.add(
+                'ativo'
+            )
+
+
+
+            const pagina =
+                item.dataset.page
+
+
+
+            paginas.forEach((secao) => {
+
+                secao.classList.remove(
+                    'ativa'
+                )
+
+            })
+
+
+
+            document
+                .getElementById(pagina)
+                .classList.add(
+                    'ativa'
+                )
+
+        }
+    )
+
+})
 
 
 
@@ -309,13 +403,14 @@ let grafico
 
 function formatarMoeda(valor) {
 
-    return Number(valor).toLocaleString(
-        'pt-BR',
-        {
-            style: 'currency',
-            currency: 'BRL'
-        }
-    )
+    return Number(valor)
+        .toLocaleString(
+            'pt-BR',
+            {
+                style: 'currency',
+                currency: 'BRL'
+            }
+        )
 
 }
 
@@ -397,15 +492,19 @@ function atualizarTela(
 
 
 
-        if (item.tipo === 'entrada') {
+        if (
+            item.tipo === 'entrada'
+        ) {
 
-            entradas += Number(item.valor)
+            entradas +=
+                Number(item.valor)
 
         }
 
         else {
 
-            saidas += Number(item.valor)
+            saidas +=
+                Number(item.valor)
 
         }
 
@@ -441,7 +540,7 @@ function atualizarTela(
 
 
 /* ======================================
-   NOVO LANÇAMENTO
+   ADICIONAR
 ====================================== */
 
 form.addEventListener(
@@ -541,7 +640,8 @@ formParcela.addEventListener(
 
 
         const valorParcela =
-            valorTotal / quantidadeParcelas
+            valorTotal /
+            quantidadeParcelas
 
 
 
@@ -556,7 +656,8 @@ formParcela.addEventListener(
                 descricao:
                     `${descricao} (${i}/${quantidadeParcelas})`,
 
-                valor: valorParcela,
+                valor:
+                    valorParcela,
 
                 tipo: 'saida',
 
@@ -567,7 +668,8 @@ formParcela.addEventListener(
                 totalParcelas:
                     quantidadeParcelas,
 
-                criadoEm: new Date()
+                criadoEm:
+                    new Date()
 
             })
 
@@ -630,32 +732,37 @@ pesquisa.addEventListener(
     () => {
 
         const texto =
-            pesquisa.value.toLowerCase()
+            pesquisa.value
+                .toLowerCase()
 
 
 
         const filtrados =
-            lancamentos.filter((item) => {
+            lancamentos.filter(
+                (item) => {
 
-                return (
+                    return (
 
-                    item.descricao
-                        .toLowerCase()
-                        .includes(texto)
+                        item.descricao
+                            .toLowerCase()
+                            .includes(texto)
 
-                    ||
+                        ||
 
-                    item.categoria
-                        .toLowerCase()
-                        .includes(texto)
+                        item.categoria
+                            .toLowerCase()
+                            .includes(texto)
 
-                )
+                    )
 
-            })
+                }
+            )
 
 
 
-        atualizarTela(filtrados)
+        atualizarTela(
+            filtrados
+        )
 
     }
 )
@@ -665,7 +772,7 @@ pesquisa.addEventListener(
 
 
 /* ======================================
-   EXPORTAR BACKUP
+   EXPORTAR
 ====================================== */
 
 exportarBtn.addEventListener(
@@ -673,7 +780,9 @@ exportarBtn.addEventListener(
     () => {
 
         const dados =
-            JSON.stringify(lancamentos)
+            JSON.stringify(
+                lancamentos
+            )
 
 
 
@@ -681,19 +790,24 @@ exportarBtn.addEventListener(
             new Blob(
                 [dados],
                 {
-                    type: 'application/json'
+                    type:
+                        'application/json'
                 }
             )
 
 
 
         const url =
-            URL.createObjectURL(blob)
+            URL.createObjectURL(
+                blob
+            )
 
 
 
         const a =
-            document.createElement('a')
+            document.createElement(
+                'a'
+            )
 
 
 
@@ -714,7 +828,7 @@ exportarBtn.addEventListener(
 
 
 /* ======================================
-   IMPORTAR BACKUP
+   IMPORTAR
 ====================================== */
 
 importarArquivo.addEventListener(
@@ -739,7 +853,9 @@ importarArquivo.addEventListener(
             async function (e) {
 
                 const dados =
-                    JSON.parse(e.target.result)
+                    JSON.parse(
+                        e.target.result
+                    )
 
 
 
@@ -749,7 +865,9 @@ importarArquivo.addEventListener(
 
                     delete item.id
 
-                    await salvarLancamento(item)
+                    await salvarLancamento(
+                        item
+                    )
 
                 }
 
@@ -761,7 +879,9 @@ importarArquivo.addEventListener(
 
 
 
-        leitor.readAsText(arquivo)
+        leitor.readAsText(
+            arquivo
+        )
 
     }
 )
@@ -780,39 +900,51 @@ function atualizarGrafico() {
 
 
 
-    lancamentos.forEach((item) => {
-
-        if (item.tipo === 'saida') {
+    lancamentos.forEach(
+        (item) => {
 
             if (
-                !categorias[item.categoria]
+                item.tipo === 'saida'
             ) {
+
+                if (
+                    !categorias[
+                    item.categoria
+                    ]
+                ) {
+
+                    categorias[
+                        item.categoria
+                    ] = 0
+
+                }
+
+
 
                 categorias[
                     item.categoria
-                ] = 0
+                ] += Number(
+                    item.valor
+                )
 
             }
 
-
-
-            categorias[
-                item.categoria
-            ] += Number(item.valor)
-
         }
-
-    })
+    )
 
 
 
     const labels =
-        Object.keys(categorias)
+        Object.keys(
+            categorias
+        )
 
 
 
     const valores =
-        Object.values(categorias)
+        Object.values(
+            categorias
+        )
 
 
 
@@ -831,41 +963,45 @@ function atualizarGrafico() {
 
 
 
-    grafico = new Chart(ctx, {
+    grafico = new Chart(
+        ctx,
+        {
 
-        type: 'doughnut',
+            type: 'doughnut',
 
-        data: {
+            data: {
 
-            labels: labels,
+                labels: labels,
 
-            datasets: [
+                datasets: [
 
-                {
+                    {
 
-                    data: valores,
+                        data: valores,
 
-                    borderWidth: 0
+                        borderWidth: 0
 
-                }
+                    }
 
-            ]
+                ]
 
-        },
+            },
 
 
 
-        options: {
+            options: {
 
-            responsive: true,
+                responsive: true,
 
-            plugins: {
+                plugins: {
 
-                legend: {
+                    legend: {
 
-                    labels: {
+                        labels: {
 
-                        color: 'white'
+                            color: 'white'
+
+                        }
 
                     }
 
@@ -874,8 +1010,7 @@ function atualizarGrafico() {
             }
 
         }
-
-    })
+    )
 
 }
 
@@ -893,17 +1028,22 @@ function atualizarCartao() {
 
 
 
-    lancamentos.forEach((item) => {
+    lancamentos.forEach(
+        (item) => {
 
-        if (
-            item.categoria === 'Cartão'
-        ) {
+            if (
+                item.categoria ===
+                'Cartão'
+            ) {
 
-            usado += Number(item.valor)
+                usado += Number(
+                    item.valor
+                )
+
+            }
 
         }
-
-    })
+    )
 
 
 
@@ -924,21 +1064,27 @@ function atualizarCartao() {
     document.getElementById(
         'limiteUsado'
     ).textContent =
-        formatarMoeda(usado)
+        formatarMoeda(
+            usado
+        )
 
 
 
     document.getElementById(
         'limiteDisponivel'
     ).textContent =
-        formatarMoeda(disponivel)
+        formatarMoeda(
+            disponivel
+        )
 
 
 
     document.getElementById(
         'faturaAtual'
     ).textContent =
-        formatarMoeda(usado)
+        formatarMoeda(
+            usado
+        )
 
 }
 
