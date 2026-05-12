@@ -28,7 +28,7 @@ function atualizarTela() {
  <span class="${item.tipo === 'entrada' ? 'valor-entrada' : 'valorsaida'}">
 ${item.tipo === 'entrada' ? '+' : '-'} ${valorFormatado}
  </span>
- <button onclick="removerLancamento(${index})">
+<button onclick="removerLancamento(${index})">
  X
  </button>
  </div>
