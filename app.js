@@ -1,9 +1,9 @@
+require('dotenv').config();
 /* ======================================
    OPENAI
 ====================================== */
 
-const OPENAI_API_KEY =
-    ''
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 
 
